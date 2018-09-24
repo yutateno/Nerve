@@ -21,9 +21,6 @@
     <ClInclude Include="Draw.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Macro.hpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Base.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>

@@ -22,7 +22,6 @@
     <ClInclude Include="Base.hpp" />
     <ClInclude Include="Draw.hpp" />
     <ClInclude Include="Input.hpp" />
-    <ClInclude Include="Macro.hpp" />
     <ClInclude Include="Main.hpp" />
   </ItemGroup>
   <ItemGroup>

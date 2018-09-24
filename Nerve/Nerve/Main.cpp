@@ -52,8 +52,7 @@ Main::~Main()
 
 
 // ウィンドウ作成
-HRESULT Main::InitWindow(HINSTANCE hInstance,
-	INT iX, INT iY, INT iWidth, INT iHeight, LPCWSTR WindowName)
+HRESULT Main::InitWindow(HINSTANCE hInstance, INT iX, INT iY, INT iWidth, INT iHeight, LPCWSTR WindowName)
 {
 	// ウィンドウの定義
 	WNDCLASSEX  wc;
@@ -68,9 +67,16 @@ HRESULT Main::InitWindow(HINSTANCE hInstance,
 	wc.lpszClassName = WindowName;
 	wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 	RegisterClassEx(&wc);
+
+	RECT rec;
+	m_hWnd = GetDesktopWindow();
+	GetClientRect(m_hWnd, &rec);
+	WINDOW_WIDTH = rec.right;
+	WINDOW_HEIGHT = rec.bottom;
+
 	// ウィンドウの作成
 	m_hWnd = CreateWindow(WindowName, WindowName, WS_OVERLAPPEDWINDOW,
-		0, 0, iWidth, iHeight, 0, 0, hInstance, 0);
+		0, 0, rec.right, rec.bottom, 0, 0, hInstance, 0);
 	if (!m_hWnd)
 	{
 		return E_FAIL;

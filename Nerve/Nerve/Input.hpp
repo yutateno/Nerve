@@ -1,14 +1,9 @@
 #pragma once
-
-#ifndef _MY_INPUT_H
-
 #include <Windows.h>
 #include <Xinput.h>
 #include <math.h>
 
 #pragma comment(lib, "xinput.lib")
-
-#endif // !_MY_INPUT_H
 
 namespace XINPUT_PAD
 {
