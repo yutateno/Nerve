@@ -260,7 +260,13 @@ HRESULT Main::InitD3D()
 	SamDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 	m_pDevice->CreateSamplerState(&SamDesc, &m_pSampler);
 	// テクスチャー読み込み
-	if (FAILED(D3DX11CreateShaderResourceViewFromFile(m_pDevice, L"Transmission.png", NULL, NULL, &m_pTexture, NULL)))
+	if (FAILED(D3DX11CreateShaderResourceViewFromFile(m_pDevice, L"Transmission.png", NULL, NULL, &m_pTexture[0], NULL)))
+	{
+		MessageBoxA(0, "テクスチャーを読み込めません", "", MB_OK);
+		return E_FAIL;
+	}
+	// テクスチャー読み込み
+	if (FAILED(D3DX11CreateShaderResourceViewFromFile(m_pDevice, L"Transmissionmn.png", NULL, NULL, &m_pTexture[1], NULL)))
 	{
 		MessageBoxA(0, "テクスチャーを読み込めません", "", MB_OK);
 		return E_FAIL;
@@ -270,7 +276,7 @@ HRESULT Main::InitD3D()
 	D3D11_BLEND_DESC bd;
 	ZeroMemory(&bd, sizeof(D3D11_BLEND_DESC));
 	bd.IndependentBlendEnable = false;
-	bd.AlphaToCoverageEnable = false;
+	bd.AlphaToCoverageEnable = true;
 	bd.RenderTarget[0].BlendEnable = true;
 	bd.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
 	bd.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
@@ -372,7 +378,7 @@ HRESULT Main::InitModel()
 void Main::Render()
 {
 	// 画面クリア
-	float ClearColor[4] = { 0,0,0.5,1 };// クリア色作成　RGBAの順
+	float ClearColor[4] = { 0,0.5,0,1 };// クリア色作成　RGBAの順
 	m_pDeviceContext->ClearRenderTargetView(m_pBackBuffer_TexRTV, ClearColor);// カラーバッファクリア
 	m_pDeviceContext->ClearDepthStencilView(m_pBackBuffer_DSTexDSV, D3D11_CLEAR_DEPTH, 1.0f, 0);// デプスステンシルバッファクリア
 
@@ -383,6 +389,38 @@ void Main::Render()
 	D3DXMATRIX Tran;
 	D3DXMatrixTranslation(&Tran, x, 0, 0);
 	World = Tran;
+	RenderSprite(World, m_pTexture[0]);
+
+	static float y = 0;
+	y = 0.02;
+	D3DXMatrixTranslation(&Tran, y, 0, 0);
+	World = Tran;
+	RenderSprite(World, m_pTexture[1]);
+
+
+	m_pSwapChain->Present(0, 0);// 画面更新（バックバッファをフロントバッファに）
+}
+
+
+// Direct3Dオブジェクトをリリース
+void Main::DestroyD3D()
+{
+	SAFE_RELEASE(m_pConstantBuffer);
+	SAFE_RELEASE(m_pVertexShader);
+	SAFE_RELEASE(m_pPixelShader);
+	SAFE_RELEASE(m_pVertexBuffer);
+	SAFE_RELEASE(m_pVertexLayout);
+	SAFE_RELEASE(m_pSwapChain);
+	SAFE_RELEASE(m_pBackBuffer_TexRTV);
+	SAFE_RELEASE(m_pBackBuffer_DSTexDSV);
+	SAFE_RELEASE(m_pBackBuffer_DSTex);
+	SAFE_RELEASE(m_pDeviceContext);
+	SAFE_RELEASE(m_pDevice);
+}
+
+
+void Main::RenderSprite(D3DXMATRIX& World, ID3D11ShaderResourceView* pTexture)
+{
 	// 使用するシェーダーのセット
 	m_pDeviceContext->VSSetShader(m_pVertexShader, NULL, 0);
 	m_pDeviceContext->PSSetShader(m_pPixelShader, NULL, 0);
@@ -410,26 +448,7 @@ void Main::Render()
 	m_pDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	// テクスチャーをシェーダーに渡す
 	m_pDeviceContext->PSSetSamplers(0, 1, &m_pSampler);
-	m_pDeviceContext->PSSetShaderResources(0, 1, &m_pTexture);
+	m_pDeviceContext->PSSetShaderResources(0, 1, &pTexture);
 	// プリミティブをレンダリング
 	m_pDeviceContext->Draw(4, 0);
-
-	m_pSwapChain->Present(0, 0);// 画面更新（バックバッファをフロントバッファに）
-}
-
-
-// Direct3Dオブジェクトをリリース
-void Main::DestroyD3D()
-{
-	SAFE_RELEASE(m_pConstantBuffer);
-	SAFE_RELEASE(m_pVertexShader);
-	SAFE_RELEASE(m_pPixelShader);
-	SAFE_RELEASE(m_pVertexBuffer);
-	SAFE_RELEASE(m_pVertexLayout);
-	SAFE_RELEASE(m_pSwapChain);
-	SAFE_RELEASE(m_pBackBuffer_TexRTV);
-	SAFE_RELEASE(m_pBackBuffer_DSTexDSV);
-	SAFE_RELEASE(m_pBackBuffer_DSTex);
-	SAFE_RELEASE(m_pDeviceContext);
-	SAFE_RELEASE(m_pDevice);
 }

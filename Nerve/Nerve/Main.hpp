@@ -33,6 +33,7 @@ public:
 	void App();
 	void Render();
 	void DestroyD3D();
+	void RenderSprite(D3DXMATRIX& World, ID3D11ShaderResourceView* pTexture);
 
 	HWND m_hWnd;
 	ID3D11Device* m_pDevice;
@@ -48,6 +49,6 @@ public:
 	ID3D11Buffer* m_pVertexBuffer;
 
 	ID3D11SamplerState* m_pSampler;//テクスチャーのサンプラー
-	ID3D11ShaderResourceView* m_pTexture;//テクスチャー（用意するのはリソースビューだけでいい）
+	ID3D11ShaderResourceView* m_pTexture[2];//テクスチャー（用意するのはリソースビューだけでいい）
 	ID3D11BlendState* m_pBlendState;
 };
