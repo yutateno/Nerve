@@ -11,12 +11,15 @@
 // 定数定義
 //#define WINDOW_WIDTH 640 //ウィンドウ幅
 //#define WINDOW_HEIGHT 480 //ウィンドウ高さ
-#define APP_NAME L"スプライト 2Dスクリーン空間 背景色を抜く"
+#define APP_NAME L"Nerve"
 
 
 // マクロ
 #define SAFE_RELEASE(x) if(x){x->Release(); x=NULL;}
 #define ALIGN16 _declspec(align(16))
+#define DIMENSION 12.0f
+#define WDIMENSION 10.0f
+#define TEX_DIMENSION 128.0f
 
 
 // 必要なライブラリファイルのロード
@@ -30,6 +33,8 @@
 // 警告非表示
 #pragma warning(disable : 4305)
 
-
-extern int WINDOW_WIDTH = 640;	//ウィンドウ幅
-extern int WINDOW_HEIGHT = 480; //ウィンドウ高さ
+#ifndef _BASE_HPP
+#define _BASE_HPP
+static int WINDOW_WIDTH = 1920;	//ウィンドウ幅
+static int WINDOW_HEIGHT = 1080; //ウィンドウ高さ
+#endif // _BASE_HPP

@@ -51,7 +51,6 @@ Main::Main()
 // デストラクタ
 Main::~Main()
 {
-	ZeroMemory(this, sizeof(Main));
 }
 
 
@@ -295,8 +294,8 @@ HRESULT Main::InitD3D()
 		return E_FAIL;
 	}
 
-	UINT mask = 0xffffffff;
-	m_pDeviceContext->OMSetBlendState(m_pBlendState, NULL, mask);
+	UINT mask = 0xffffffff;													// いらないかも
+	m_pDeviceContext->OMSetBlendState(m_pBlendState, NULL, mask);			// いらないかも
 
 	
 	// 文字列レンダリングの初期化
@@ -398,26 +397,19 @@ void Main::Render()
 	D3DXMATRIX World;
 	// ワールドトランスフォーム
 	static float x = 0;
-	if (InputPad::GetPadButtonData(XINPUT_PAD::NUM01, XINPUT_PAD::BUTTON_A) >= 1)
-	{
-		x += 10.0f;
-	}
+	x += 0.02f;
 	D3DXMATRIX Tran;
 	D3DXMatrixTranslation(&Tran, x, 0, 0);
 	World = Tran;
 	RenderSprite(World, m_pTexture[0]);
 
 	static float y = 0;
-	y += 0.02;
+	y += 0.02f;
 	D3DXMatrixTranslation(&Tran, 0, y, 0);
 	World = Tran;
 	RenderSprite(World, m_pTexture[1]);
 
-	m_pText->Render("ABCDEFGHIJKLMNOP", 0, 10);
-	m_pText->Render("QRSTUVWXYZ", 0, 30);
-	m_pText->Render("abcdefghijklmnopqrstuvwxyz", 0, 50);
-	m_pText->Render("1234567890", 0, 70);
-	m_pText->Render("!#$%&'()=~|{`}*+_?><", 0, 90);
+	m_pText->Render("HELLOOOOOOOOOOOOO", 0, 10);
 
 	static float fValue = 0;
 	fValue += 0.01;
@@ -479,5 +471,8 @@ void Main::RenderSprite(D3DXMATRIX& World, ID3D11ShaderResourceView* pTexture)
 	m_pDeviceContext->PSSetSamplers(0, 1, &m_pSampler);
 	m_pDeviceContext->PSSetShaderResources(0, 1, &pTexture);
 	// プリミティブをレンダリング
+	UINT ColorKey = 0xffffffff;
+	m_pDeviceContext->OMSetBlendState(m_pBlendState, NULL, ColorKey);
 	m_pDeviceContext->Draw(4, 0);
+	m_pDeviceContext->OMSetBlendState(0, NULL, ColorKey);
 }

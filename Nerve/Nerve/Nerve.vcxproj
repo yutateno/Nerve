@@ -21,13 +21,11 @@
   <ItemGroup>
     <ClInclude Include="Base.hpp" />
     <ClInclude Include="DebugText.hpp" />
-    <ClInclude Include="Draw.hpp" />
     <ClInclude Include="Input.hpp" />
     <ClInclude Include="Main.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DebugText.cpp" />
-    <ClCompile Include="Draw.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>

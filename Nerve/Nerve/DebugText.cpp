@@ -172,8 +172,8 @@ void D3D11_TEXT::Render(char* text, int x, int y)
 	D3DXMatrixLookAtLH(&m_mView, &vEyePt, &vLookatPt, &vUpVec);
 	// プロジェクショントランスフォーム（射影変換）
 	D3DMATRIX mOtho = {
-		2.0f / (float)(m_dwWindowWidth), 0.0f, 0.0f, 0.0f,
-		0.0f, -2.0f / (float)(m_dwWindowHeight), 0.0f, 0.0f,
+		2.0f / static_cast<float>(m_dwWindowWidth), 0.0f, 0.0f, 0.0f,
+		0.0f, -2.0f / static_cast<float>(m_dwWindowHeight), 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
 		-1.0f, 1.0f, 0.0f, 1.0f
 	};
