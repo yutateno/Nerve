@@ -13,6 +13,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, INT)
 {
 	g_pMain = new Main;
+	InputPad::InputPad();
+	InputPad::SetPlayerPadNum(0);
 	if (g_pMain != NULL)
 	{
 		if (SUCCEEDED(g_pMain->InitWindow(hInstance, 0, 0, WINDOW_WIDTH,
@@ -21,6 +23,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, INT)
 			if (SUCCEEDED(g_pMain->InitD3D()))
 			{
 				g_pMain->Run();
+				InputPad::FirstUpdate();
 			}
 		}
 		// アプリ終了
@@ -48,6 +51,7 @@ Main::Main()
 // デストラクタ
 Main::~Main()
 {
+	ZeroMemory(this, sizeof(Main));
 }
 
 
@@ -197,8 +201,8 @@ HRESULT Main::InitD3D()
 	m_pDeviceContext->OMSetRenderTargets(1, &m_pBackBuffer_TexRTV, m_pBackBuffer_DSTexDSV);
 	// ビューポートの設定
 	D3D11_VIEWPORT vp;
-	vp.Width = WINDOW_WIDTH;
-	vp.Height = WINDOW_HEIGHT;
+	vp.Width = static_cast<FLOAT>(WINDOW_WIDTH);
+	vp.Height = static_cast<FLOAT>(WINDOW_HEIGHT);
 	vp.MinDepth = 0.0f;
 	vp.MaxDepth = 1.0f;
 	vp.TopLeftX = 0;
@@ -294,6 +298,15 @@ HRESULT Main::InitD3D()
 	UINT mask = 0xffffffff;
 	m_pDeviceContext->OMSetBlendState(m_pBlendState, NULL, mask);
 
+	
+	// 文字列レンダリングの初期化
+	m_pText = new D3D11_TEXT;
+	D3DXVECTOR4 vColor(0.9, 0.6, 0, 1);
+	if (FAILED(m_pText->Init(m_pDeviceContext, WINDOW_WIDTH, WINDOW_HEIGHT, 50, vColor)))
+	{
+		return E_FAIL;
+	}
+
 	return S_OK;
 }
 
@@ -385,17 +398,32 @@ void Main::Render()
 	D3DXMATRIX World;
 	// ワールドトランスフォーム
 	static float x = 0;
-	x += 0.01;
+	if (InputPad::GetPadButtonData(XINPUT_PAD::NUM01, XINPUT_PAD::BUTTON_A) >= 1)
+	{
+		x += 10.0f;
+	}
 	D3DXMATRIX Tran;
 	D3DXMatrixTranslation(&Tran, x, 0, 0);
 	World = Tran;
 	RenderSprite(World, m_pTexture[0]);
 
 	static float y = 0;
-	y = 0.02;
-	D3DXMatrixTranslation(&Tran, y, 0, 0);
+	y += 0.02;
+	D3DXMatrixTranslation(&Tran, 0, y, 0);
 	World = Tran;
 	RenderSprite(World, m_pTexture[1]);
+
+	m_pText->Render("ABCDEFGHIJKLMNOP", 0, 10);
+	m_pText->Render("QRSTUVWXYZ", 0, 30);
+	m_pText->Render("abcdefghijklmnopqrstuvwxyz", 0, 50);
+	m_pText->Render("1234567890", 0, 70);
+	m_pText->Render("!#$%&'()=~|{`}*+_?><", 0, 90);
+
+	static float fValue = 0;
+	fValue += 0.01;
+	char str[256];
+	sprintf(str, "fValue=%f", fValue);
+	m_pText->Render(str, 0, 120);
 
 
 	m_pSwapChain->Present(0, 0);// 画面更新（バックバッファをフロントバッファに）
@@ -405,6 +433,7 @@ void Main::Render()
 // Direct3Dオブジェクトをリリース
 void Main::DestroyD3D()
 {
+	delete m_pText;
 	SAFE_RELEASE(m_pConstantBuffer);
 	SAFE_RELEASE(m_pVertexShader);
 	SAFE_RELEASE(m_pPixelShader);
@@ -433,8 +462,8 @@ void Main::RenderSprite(D3DXMATRIX& World, ID3D11ShaderResourceView* pTexture)
 		cb.mW = World;
 		D3DXMatrixTranspose(&cb.mW, &cb.mW);
 		// ビューポートサイズを渡す（クライアント領域の横と縦）
-		cb.ViewPortWidth = WINDOW_WIDTH;
-		cb.ViewPortHeight = WINDOW_HEIGHT;
+		cb.ViewPortWidth = static_cast<float>(WINDOW_WIDTH);
+		cb.ViewPortHeight = static_cast<float>(WINDOW_HEIGHT);
 
 		memcpy_s(pData.pData, pData.RowPitch, (void*)(&cb), sizeof(cb));
 		m_pDeviceContext->Unmap(m_pConstantBuffer, 0);

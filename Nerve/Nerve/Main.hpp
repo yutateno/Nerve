@@ -1,5 +1,6 @@
 #pragma once
 #include "Base.hpp"
+#include "DebugText.hpp"
 
 
 // 頂点の構造体
@@ -51,4 +52,6 @@ public:
 	ID3D11SamplerState* m_pSampler;//テクスチャーのサンプラー
 	ID3D11ShaderResourceView* m_pTexture[2];//テクスチャー（用意するのはリソースビューだけでいい）
 	ID3D11BlendState* m_pBlendState;
+
+	D3D11_TEXT* m_pText;
 };

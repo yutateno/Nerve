@@ -1,6 +1,6 @@
 #pragma once
-#ifndef _MY_INPUTPAD_H
-#define _MY_INPUTPAD_H
+//#ifndef _MY_INPUTPAD_H
+//#define _MY_INPUTPAD_H
 
 #include <Windows.h>
 #include <math.h>
@@ -116,4 +116,4 @@ public:
 	static int GetPadThumbData(unsigned __int8 use_padnum, unsigned __int8 use_stick);			// コントローラのスティック操作
 };
 
-#endif // !_MY_INPUTPAD_H
+//#endif // !_MY_INPUTPAD_H

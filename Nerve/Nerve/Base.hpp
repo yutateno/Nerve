@@ -1,8 +1,10 @@
 // ヘッダーファイルのインクルード
+#include <Windows.h>
 #include <d3d11.h>
 #include <d3dx10.h>
 #include <d3dx11.h>
 #include <d3dCompiler.h>
+#include <stdio.h>
 #include "Input.hpp"
 
 
