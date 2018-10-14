@@ -1,5 +1,19 @@
 #pragma once
-#include "Base.hpp"
+
+#include <windows.h>
+#include <d3d11.h>
+#include <d3dx10.h>
+#include <d3dx11.h>
+#include <d3dCompiler.h>
+
+#pragma comment(lib,"d3d11.lib")
+#pragma comment(lib,"d3dx11.lib")
+
+
+#define SAFE_RELEASE(x) if(x){x->Release(); x=NULL;}
+#define DIMENSION 12.0f
+#define WDIMENSION 10.0f
+#define TEX_DIMENSION 128.0f
 
 //
 //
@@ -28,7 +42,6 @@ public:
 	void Render(char* text, int x, int y);
 	void RenderFont(int FontIndex, int x, int y);
 
-private:
 	ID3D11Device* m_pDevice;
 	ID3D11DeviceContext* m_pDeviceContext;
 	ID3D11SamplerState* m_pSampleLinear;

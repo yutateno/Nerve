@@ -212,6 +212,7 @@ HRESULT Main::InitD3D()
 	ZeroMemory(&rdc, sizeof(rdc));
 	rdc.CullMode = D3D11_CULL_NONE;
 	rdc.FillMode = D3D11_FILL_SOLID;
+	rdc.FrontCounterClockwise = TRUE;
 	ID3D11RasterizerState* pIr = NULL;
 	m_pDevice->CreateRasterizerState(&rdc, &pIr);
 	m_pDeviceContext->RSSetState(pIr);
@@ -294,8 +295,8 @@ HRESULT Main::InitD3D()
 		return E_FAIL;
 	}
 
-	UINT mask = 0xffffffff;													// いらないかも
-	m_pDeviceContext->OMSetBlendState(m_pBlendState, NULL, mask);			// いらないかも
+	//UINT mask = 0xffffffff;													// いらないかも
+	//m_pDeviceContext->OMSetBlendState(m_pBlendState, NULL, mask);			// いらないかも
 
 	
 	// 文字列レンダリングの初期化
@@ -377,10 +378,6 @@ HRESULT Main::InitModel()
 	{
 		return E_FAIL;
 	}
-	// バーテックスバッファーをセット
-	UINT stride = sizeof(SimpleVertex);
-	UINT offset = 0;
-	m_pDeviceContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
 
 	return S_OK;
 }
@@ -409,13 +406,9 @@ void Main::Render()
 	World = Tran;
 	RenderSprite(World, m_pTexture[1]);
 
-	m_pText->Render("HELLOOOOOOOOOOOOO", 0, 10);
-
-	static float fValue = 0;
-	fValue += 0.01;
 	char str[256];
-	sprintf(str, "fValue=%f", fValue);
-	m_pText->Render(str, 0, 120);
+	sprintf(str, "fValue=%f", x);
+	m_pText->Render(str, 0, 10);
 
 
 	m_pSwapChain->Present(0, 0);// 画面更新（バックバッファをフロントバッファに）
@@ -470,6 +463,13 @@ void Main::RenderSprite(D3DXMATRIX& World, ID3D11ShaderResourceView* pTexture)
 	// テクスチャーをシェーダーに渡す
 	m_pDeviceContext->PSSetSamplers(0, 1, &m_pSampler);
 	m_pDeviceContext->PSSetShaderResources(0, 1, &pTexture);
+
+
+	// バーテックスバッファーをセット
+	UINT stride = sizeof(SimpleVertex);
+	UINT offset = 0;
+	m_pDeviceContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
+
 	// プリミティブをレンダリング
 	UINT ColorKey = 0xffffffff;
 	m_pDeviceContext->OMSetBlendState(m_pBlendState, NULL, ColorKey);
