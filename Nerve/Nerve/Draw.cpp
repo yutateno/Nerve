@@ -20,7 +20,7 @@ Draw::~Draw()
 
 
 // Direct3D初期化
-HRESULT Draw::Init(ID3D11DeviceContext* pContext, DWORD width, DWORD height, LPCWSTR fileName)
+HRESULT Draw::Init(ID3D11DeviceContext* pContext, DWORD width, DWORD height, LPCWSTR* p_fileName, int num)
 {
 	//デバイスとコンテキストをコピー
 	m_pDeviceContext = pContext;
@@ -77,17 +77,27 @@ HRESULT Draw::Init(ID3D11DeviceContext* pContext, DWORD width, DWORD height, LPC
 	SamDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 	m_pDevice->CreateSamplerState(&SamDesc, &m_pSampler);
 	// テクスチャー読み込み
-	if (FAILED(D3DX11CreateShaderResourceViewFromFile(m_pDevice, fileName, NULL, NULL, &m_pTexture[0], NULL)))
+	m_pTexture.resize(num);
+	for (int i = 0; i != num; ++i)
 	{
-		MessageBoxA(0, "テクスチャーを読み込めません", "", MB_OK);
-		return E_FAIL;
+		if (FAILED(D3DX11CreateShaderResourceViewFromFile(m_pDevice, p_fileName[i], NULL, NULL, &m_pTexture[i], NULL)))
+		{
+			MessageBoxA(0, "テクスチャーを読み込めません", "", MB_OK);
+			return E_FAIL;
+		}
 	}
-	// テクスチャー読み込み
-	if (FAILED(D3DX11CreateShaderResourceViewFromFile(m_pDevice, fileName, NULL, NULL, &m_pTexture[1], NULL)))
-	{
-		MessageBoxA(0, "テクスチャーを読み込めません", "", MB_OK);
-		return E_FAIL;
-	}
+	//}
+	//if (FAILED(D3DX11CreateShaderResourceViewFromFile(m_pDevice, fileName, NULL, NULL, &m_pTexture[0], NULL)))
+	//{
+	//	MessageBoxA(0, "テクスチャーを読み込めません", "", MB_OK);
+	//	return E_FAIL;
+	//}
+	//// テクスチャー読み込み
+	//if (FAILED(D3DX11CreateShaderResourceViewFromFile(m_pDevice, fileName, NULL, NULL, &m_pTexture[1], NULL)))
+	//{
+	//	MessageBoxA(0, "テクスチャーを読み込めません", "", MB_OK);
+	//	return E_FAIL;
+	//}
 	// アルファブレンド用ブレンドステート作成
 	// pngファイル内にアルファ情報がある。アルファにより透過するよう指定している
 	D3D11_BLEND_DESC bd;
@@ -185,17 +195,13 @@ HRESULT Draw::InitModel()
 
 
 // シーンを画面にレンダリング
-void Draw::Render(float x, float y)
+void Draw::Render(int num, float x, float y)
 {
 	D3DXMATRIX World;
 	D3DXMATRIX Tran;
-	D3DXMatrixTranslation(&Tran, x, 0, 0);
+	D3DXMatrixTranslation(&Tran, x, y, 0);
 	World = Tran;
-	RenderSprite(World, m_pTexture[0]);
-
-	D3DXMatrixTranslation(&Tran, 0, y, 0);
-	World = Tran;
-	RenderSprite(World, m_pTexture[1]);
+	RenderSprite(World, m_pTexture[num]);
 }
 
 

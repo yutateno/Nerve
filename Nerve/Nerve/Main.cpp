@@ -228,7 +228,9 @@ HRESULT Main::InitD3D()
 
 
 	m_pDraw = new Draw;
-	if (FAILED(m_pDraw->Init(m_pDeviceContext, WINDOW_WIDTH, WINDOW_HEIGHT, L"Transmission.png")))
+	int fileNum = 2;
+	LPCWSTR fileName[] = { L"Transmission.png" , L"Transmissionmn.png" };
+	if (FAILED(m_pDraw->Init(m_pDeviceContext, WINDOW_WIDTH, WINDOW_HEIGHT, fileName, fileNum)))
 	{
 		return E_FAIL;
 	}
@@ -249,7 +251,13 @@ void Main::Render()
 	x += 0.02;
 	static float y = 0;
 	y += 0.02;
-	m_pDraw->Render(x, y);
+	m_pDraw->Render(0, x, y);
+
+	static float x2 = 1920;
+	x2 -= 0.02;
+	static float y2 = 1080;
+	y2 -= 0.02;
+	m_pDraw->Render(1, x2, y2);
 
 	char str[256];
 	sprintf(str, "x=%f", x);

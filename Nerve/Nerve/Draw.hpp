@@ -24,8 +24,8 @@ class Draw
 public:
 	Draw();
 	~Draw();
-	HRESULT Init(ID3D11DeviceContext* pContext, DWORD width, DWORD height, LPCWSTR fileName);
-	void Render(float x, float y);
+	HRESULT Init(ID3D11DeviceContext* pContext, DWORD width, DWORD height, LPCWSTR* p_fileName, int num);
+	void Render(int num, float x, float y);
 
 private:
 	HRESULT InitModel();
@@ -43,6 +43,6 @@ private:
 	DWORD m_dwWindowWidth;
 	DWORD m_dwWindowHeight;
 	ID3D11SamplerState* m_pSampler;//テクスチャーのサンプラー
-	ID3D11ShaderResourceView* m_pTexture[2];//テクスチャー（用意するのはリソースビューだけでいい）
+	std::vector<ID3D11ShaderResourceView*> m_pTexture;//テクスチャー（用意するのはリソースビューだけでいい）
 	ID3D11BlendState* m_pBlendState;
 };
