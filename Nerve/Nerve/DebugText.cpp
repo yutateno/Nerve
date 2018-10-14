@@ -1,23 +1,20 @@
 #include "DebugText.hpp"
 
-//
-//
-//
-D3D11_TEXT::D3D11_TEXT()
+
+
+DebugText::DebugText()
 {
-	ZeroMemory(this, sizeof(D3D11_TEXT));
+	ZeroMemory(this, sizeof(DebugText));
 	m_fScale = 1.0f;
 }
-//
-//
-//
-D3D11_TEXT::~D3D11_TEXT()
+
+
+DebugText::~DebugText()
 {
 }
-//
-//
-//
-HRESULT D3D11_TEXT::Init(ID3D11DeviceContext* pContext, DWORD width, DWORD height, float size, D3DXVECTOR4 vColor)
+
+
+HRESULT DebugText::Init(ID3D11DeviceContext* pContext, DWORD width, DWORD height, float size, D3DXVECTOR4 vColor)
 {
 	m_fAlpha = vColor.w;
 	m_vColor = vColor;
@@ -88,7 +85,7 @@ HRESULT D3D11_TEXT::Init(ID3D11DeviceContext* pContext, DWORD width, DWORD heigh
 	ID3DBlob *pCompiledShader = NULL;
 	ID3DBlob *pErrors = NULL;
 	//ブロブからバーテックスシェーダー作成
-	if (FAILED(D3DX11CompileFromFile(L"D3D11_TEXT.hlsl", NULL, NULL, "VS", "vs_5_0", 0, 0, NULL, &pCompiledShader, &pErrors, NULL)))
+	if (FAILED(D3DX11CompileFromFile(L"SpriteText.hlsl", NULL, NULL, "VS", "vs_5_0", 0, 0, NULL, &pCompiledShader, &pErrors, NULL)))
 	{
 		MessageBox(0, L"hlsl読み込み失敗", NULL, MB_OK);
 		return E_FAIL;
@@ -113,7 +110,7 @@ HRESULT D3D11_TEXT::Init(ID3D11DeviceContext* pContext, DWORD width, DWORD heigh
 	if (FAILED(m_pDevice->CreateInputLayout(layout, numElements, pCompiledShader->GetBufferPointer(), pCompiledShader->GetBufferSize(), &m_pVertexLayout)))
 		return FALSE;
 	//ブロブからピクセルシェーダー作成
-	if (FAILED(D3DX11CompileFromFile(L"D3D11_TEXT.hlsl", NULL, NULL, "PS", "ps_5_0", 0, 0, NULL, &pCompiledShader, &pErrors, NULL)))
+	if (FAILED(D3DX11CompileFromFile(L"SpriteText.hlsl", NULL, NULL, "PS", "ps_5_0", 0, 0, NULL, &pCompiledShader, &pErrors, NULL)))
 	{
 		MessageBox(0, L"hlsl読み込み失敗", NULL, MB_OK);
 		return E_FAIL;
@@ -160,10 +157,9 @@ HRESULT D3D11_TEXT::Init(ID3D11DeviceContext* pContext, DWORD width, DWORD heigh
 
 	return S_OK;
 }
-//
-//
-//
-void D3D11_TEXT::Render(char* text, int x, int y)
+
+
+void DebugText::Render(char* text, int x, int y)
 {
 	// ビュートランスフォーム（視点座標変換）
 	D3DXVECTOR3 vEyePt(0.0f, 0.0f, -1); //カメラ（視点）位置
@@ -202,10 +198,9 @@ void D3D11_TEXT::Render(char* text, int x, int y)
 		x += m_fKerning[index];
 	}
 }
-//
-//
-//
-void D3D11_TEXT::RenderFont(int FontIndex, int x, int y)
+
+
+void DebugText::RenderFont(int FontIndex, int x, int y)
 {
 	//ワールド変換
 	D3DXMATRIX mWorld;

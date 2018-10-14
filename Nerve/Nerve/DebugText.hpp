@@ -1,45 +1,33 @@
 #pragma once
-
-#include <windows.h>
-#include <d3d11.h>
-#include <d3dx10.h>
-#include <d3dx11.h>
-#include <d3dCompiler.h>
-
-#pragma comment(lib,"d3d11.lib")
-#pragma comment(lib,"d3dx11.lib")
+#include "Base.hpp"
 
 
-#define SAFE_RELEASE(x) if(x){x->Release(); x=NULL;}
-#define DIMENSION 12.0f
-#define WDIMENSION 10.0f
-#define TEX_DIMENSION 128.0f
 
-//
-//
 struct TEXT_CONSTANT_BUFFER
 {
 	D3DXMATRIX mWVP;
 	D3DXVECTOR4 vColor;
 	D3DXVECTOR4 fAlpha;
 };
-//
-//
+
+
 struct TextVertex
 {
 	D3DXVECTOR3 Pos; //位置
 	D3DXVECTOR2 vTex; //テクスチャー座標
 };
-//
-//
-class D3D11_TEXT
+
+
+class DebugText
 {
 public:
-	D3D11_TEXT();
-	~D3D11_TEXT();
+	DebugText();
+	~DebugText();
 
 	HRESULT Init(ID3D11DeviceContext* pContext, DWORD width, DWORD height, float size, D3DXVECTOR4 vColor);
 	void Render(char* text, int x, int y);
+
+private:
 	void RenderFont(int FontIndex, int x, int y);
 
 	ID3D11Device* m_pDevice;
@@ -59,7 +47,7 @@ public:
 	D3DXMATRIX m_mView;
 	D3DXMATRIX m_mProj;
 	float m_fKerning[100];
-	float m_fScale;//25pixelを基準 25pixel=1.0f
+	float m_fScale;		//25pixelを基準 25pixel=1.0f
 	float m_fAlpha;
 	D3DXVECTOR4 m_vColor;
 };

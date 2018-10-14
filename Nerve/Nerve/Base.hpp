@@ -6,11 +6,11 @@
 #include <d3dCompiler.h>
 #include <stdio.h>
 #include "Input.hpp"
+#include <string>
+#include <vector>
 
 
 // 定数定義
-//#define WINDOW_WIDTH 640 //ウィンドウ幅
-//#define WINDOW_HEIGHT 480 //ウィンドウ高さ
 #define APP_NAME L"Nerve"
 
 
