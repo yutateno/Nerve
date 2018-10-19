@@ -23,7 +23,6 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, INT)
 			if (SUCCEEDED(g_pMain->InitD3D()))
 			{
 				g_pMain->Run();
-				InputPad::FirstUpdate();
 			}
 		}
 		// アプリ終了
@@ -139,6 +138,7 @@ void Main::Run()
 // アプリケーション処理。アプリのメイン関数。
 void Main::App()
 {
+	InputPad::FirstUpdate();
 	Render();
 }
 
@@ -260,7 +260,7 @@ void Main::Render()
 	m_pDraw->Render(1, x2, y2);
 
 	char str[256];
-	sprintf(str, "x=%f", x);
+	sprintf(str, "%d", InputPad::GetPadButtonData(XINPUT_PAD::NUM01, XINPUT_PAD::BUTTON_A));
 	m_pText->Render(str, 0, 10);
 
 
