@@ -77,7 +77,7 @@ HRESULT DebugText::Init(ID3D11DeviceContext* pContext, DWORD width, DWORD height
 	SamDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 	m_pDevice->CreateSamplerState(&SamDesc, &m_pSampleLinear);
 	//フォントのテクスチャーを作成
-	if (FAILED(D3DX11CreateShaderResourceViewFromFile(m_pDevice, L"ascii.png", NULL, NULL, &m_pAsciiTexture, NULL)))
+	if (FAILED(D3DX11CreateShaderResourceViewFromFile(m_pDevice, L"media\\ascii.png", NULL, NULL, &m_pAsciiTexture, NULL)))
 	{
 		return E_FAIL;
 	}

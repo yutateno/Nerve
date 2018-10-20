@@ -229,7 +229,7 @@ HRESULT Main::InitD3D()
 
 	m_pDraw = new Draw;
 	int fileNum = 2;
-	LPCWSTR fileName[] = { L"Transmission.png" , L"Transmissionmn.png" };
+	LPCWSTR fileName[] = { L"media\\Transmission.png" , L"media\\Transmissionmn.png" };
 	if (FAILED(m_pDraw->Init(m_pDeviceContext, WINDOW_WIDTH, WINDOW_HEIGHT, fileName, fileNum)))
 	{
 		return E_FAIL;
