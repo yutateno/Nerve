@@ -16,6 +16,7 @@
 
 // ƒ}ƒNƒ
 #define SAFE_RELEASE(x) if(x){x->Release(); x=NULL;}
+#define SAFE_DEL_RELEASE(x) if(x){delete x; x=NULL;}
 #define ALIGN16 _declspec(align(16))
 #define DIMENSION 12.0f
 #define WDIMENSION 10.0f

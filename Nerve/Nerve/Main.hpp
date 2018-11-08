@@ -2,20 +2,17 @@
 #include "Base.hpp"
 #include "DebugText.hpp"
 #include "Draw.hpp"
+#include "Character.hpp"
 
 
 class Main
 {
-public:
-	Main();
-	~Main();
-	HRESULT InitWindow(HINSTANCE, INT, INT, INT, INT, LPCWSTR);
-	LRESULT MsgProc(HWND, UINT, WPARAM, LPARAM);
-	HRESULT InitD3D();
-	void Run();
-	void App();
-	void Render();
-	void DestroyD3D();
+private:
+	DebugText* m_pText;
+	Draw* m_pDraw;
+
+	void App();			// アプリケーション処理。アプリのメイン関数。
+	void Render();		// シーンを画面にレンダリング
 
 	HWND m_hWnd;
 	ID3D11Device* m_pDevice;
@@ -25,6 +22,16 @@ public:
 	ID3D11DepthStencilView* m_pBackBuffer_DSTexDSV;
 	ID3D11Texture2D* m_pBackBuffer_DSTex;
 
-	DebugText* m_pText;
-	Draw* m_pDraw;
+	Character* m_pCharacter;
+	
+
+public:
+	Main();		// コンストラクタ
+	~Main();	// デストラクタ
+
+	HRESULT InitWindow(HINSTANCE hInstance, INT iX, INT iY, INT iWidth, INT iHeight, LPCWSTR WindowName);		// ウィンドウ作成
+	HRESULT InitD3D();																							// Direct3D初期化
+	LRESULT MsgProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam);										// ウィンドウプロシージャー
+	void Run();																									// メッセージループとアプリケーション処理の入り口
+	void DestroyD3D();																							// リリース
 };

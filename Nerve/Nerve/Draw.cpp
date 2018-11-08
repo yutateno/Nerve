@@ -20,7 +20,7 @@ Draw::~Draw()
 
 
 // Direct3D初期化
-HRESULT Draw::Init(ID3D11DeviceContext* pContext, DWORD width, DWORD height, LPCWSTR* p_fileName, int num)
+HRESULT Draw::Init(ID3D11DeviceContext* pContext, DWORD width, DWORD height, LPCWSTR* p_fileName, const int num)
 {
 	//デバイスとコンテキストをコピー
 	m_pDeviceContext = pContext;

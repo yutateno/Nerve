@@ -24,7 +24,7 @@ class Draw
 public:
 	Draw();
 	~Draw();
-	HRESULT Init(ID3D11DeviceContext* pContext, DWORD width, DWORD height, LPCWSTR* p_fileName, int num);
+	HRESULT Init(ID3D11DeviceContext* pContext, DWORD width, DWORD height, LPCWSTR* p_fileName, const int num);
 	void Render(int num, float x, float y);
 
 private:
