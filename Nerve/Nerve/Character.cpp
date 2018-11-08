@@ -78,14 +78,14 @@ void Character::Process()
 	{
 		if (m_direction[static_cast<int>(DIRECTION::down)])
 		{
-			m_x -= 0.01f / static_cast<float>(sqrt(2));
-			m_y += 0.01f / static_cast<float>(sqrt(2));
+			m_x -= 0.01f / sqrtf(2);
+			m_y += 0.01f / sqrtf(2);
 			FrameSprite(MOVE_DIRE::leftDown);
 		}
 		else if (m_direction[static_cast<int>(DIRECTION::up)])
 		{
-			m_x -= 0.01f / static_cast<float>(sqrt(2));
-			m_y -= 0.01f / static_cast<float>(sqrt(2));
+			m_x -= 0.01f / sqrtf(2);
+			m_y -= 0.01f / sqrtf(2);
 			FrameSprite(MOVE_DIRE::leftUp);
 		}
 		else
@@ -98,14 +98,14 @@ void Character::Process()
 	{
 		if (m_direction[static_cast<int>(DIRECTION::down)])
 		{
-			m_x += 0.01f / static_cast<float>(sqrt(2));
-			m_y += 0.01f / static_cast<float>(sqrt(2));
+			m_x += 0.01f / sqrtf(2);
+			m_y += 0.01f / sqrtf(2);
 			FrameSprite(MOVE_DIRE::rightDown);
 		}
 		else if (m_direction[static_cast<int>(DIRECTION::up)])
 		{
-			m_x += 0.01f / static_cast<float>(sqrt(2));
-			m_y -= 0.01f / static_cast<float>(sqrt(2));
+			m_x += 0.01f / sqrtf(2);
+			m_y -= 0.01f / sqrtf(2);
 			FrameSprite(MOVE_DIRE::rightUp);
 		}
 		else
