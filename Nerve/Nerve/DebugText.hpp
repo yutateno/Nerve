@@ -20,13 +20,6 @@ struct TextVertex
 
 class DebugText
 {
-public:
-	DebugText();
-	~DebugText();
-
-	HRESULT Init(ID3D11DeviceContext* pContext, DWORD width, DWORD height, float size, D3DXVECTOR4 vColor);
-	void Render(char* text, int x, int y);
-
 private:
 	void RenderFont(int FontIndex, int x, int y);
 
@@ -50,4 +43,12 @@ private:
 	float m_fScale;		//25pixelÇäÓèÄ 25pixel=1.0f
 	float m_fAlpha;
 	D3DXVECTOR4 m_vColor;
+
+
+public:
+	DebugText();
+	~DebugText();
+
+	HRESULT Init(ID3D11DeviceContext* pContext, DWORD width, DWORD height, float size, D3DXVECTOR4 vColor);
+	void Render(char* text, int x, int y);
 };

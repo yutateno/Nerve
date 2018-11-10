@@ -4,20 +4,28 @@
 
 void Character::FrameSprite(MOVE_DIRE direction)
 {
-	if (m_ID >= static_cast<int>(direction) * m_frame && m_ID <= static_cast<int>(direction) * m_frame + (m_frame - 1))
+	if (m_frameWait >= m_frameWaitTimer)
 	{
-		if (m_ID >= static_cast<int>(direction) * m_frame + (m_frame - 1))
+		if (m_ID >= static_cast<int>(direction) * m_frame && m_ID <= static_cast<int>(direction) * m_frame + (m_frame - 1))
 		{
-			m_ID = static_cast<int>(direction) * m_frame;
+			if (m_ID >= static_cast<int>(direction) * m_frame + (m_frame - 1))
+			{
+				m_ID = static_cast<int>(direction) * m_frame;
+			}
+			else
+			{
+				m_ID++;
+			}
 		}
 		else
 		{
-			m_ID++;
+			m_ID = static_cast<int>(direction) * m_frame;
 		}
+		m_frameWait = 0;
 	}
 	else
 	{
-		m_ID = static_cast<int>(direction) * m_frame;
+		m_frameWait++;
 	}
 }
 
@@ -27,6 +35,8 @@ Character::Character()
 
 	m_x = 0.0f;
 	m_y = 0.0f;
+
+	m_frameWait = 0;
 
 	ZeroMemory(m_direction, sizeof(m_direction));
 }

@@ -27,6 +27,11 @@ private:
 	/// 向きの方向
 	bool m_direction[4];
 
+	/// コマ送り待機
+	int m_frameWait;
+	/// コマ送り待機時間
+	const int m_frameWaitTimer = 500;
+
 
 public:
 	Character();

@@ -271,6 +271,10 @@ HRESULT Main::InitD3D()
 	}
 
 
+	/// フルスクリーンにする（DirectX11なのでALT+Enterで切り替え可
+	m_pSwapChain->SetFullscreenState(true, 0);
+
+
 	return S_OK;
 }
 
