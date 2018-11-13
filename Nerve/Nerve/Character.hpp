@@ -29,8 +29,12 @@ private:
 
 	/// コマ送り待機
 	int m_frameWait;
+
 	/// コマ送り待機時間
 	const int m_frameWaitTimer = 500;
+
+	/// スプライトサイズ
+	float m_xSize, m_ySize;
 
 
 public:
@@ -43,5 +47,7 @@ public:
 	int GetID();
 	float GetX();
 	float GetY();
+	float GetXSize();
+	float GetYSize();
 };
 

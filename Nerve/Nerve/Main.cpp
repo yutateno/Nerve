@@ -265,7 +265,7 @@ HRESULT Main::InitD3D()
 						 , L"media\\clph_2d\\clph\\7_1.png" , L"media\\clph_2d\\clph\\7_2.png", L"media\\clph_2d\\clph\\7_3.png" 
 						 , L"media\\clph_2d\\clph\\8_1.png" , L"media\\clph_2d\\clph\\8_2.png", L"media\\clph_2d\\clph\\8_3.png" 
 						 , L"media\\clph_2d\\clph\\9_1.png" , L"media\\clph_2d\\clph\\9_2.png", L"media\\clph_2d\\clph\\9_3.png" };
-	if (FAILED(m_pDraw->Init(m_pDeviceContext, WINDOW_WIDTH, WINDOW_HEIGHT, fileName, fileNum, 64, 64, false, false)))
+	if (FAILED(m_pDraw->Init(m_pDeviceContext, WINDOW_WIDTH, WINDOW_HEIGHT, fileName, fileNum, 64, 64)))
 	{
 		return E_FAIL;
 	}
@@ -287,7 +287,7 @@ void Main::Render()
 	m_pDeviceContext->ClearRenderTargetView(m_pBackBuffer_TexRTV, ClearColor);						/// カラーバッファクリア
 	m_pDeviceContext->ClearDepthStencilView(m_pBackBuffer_DSTexDSV, D3D11_CLEAR_DEPTH, 1.0f, 0);	/// デプスステンシルバッファクリア
 
-	m_pDraw->Render(m_pCharacter->GetID(), m_pCharacter->GetX(), m_pCharacter->GetY());
+	m_pDraw->Render(m_pCharacter->GetID(), m_pCharacter->GetX(), m_pCharacter->GetY(), m_pCharacter->GetXSize(), m_pCharacter->GetYSize(), true, false);
 
 	char str[256];
 	sprintf(str, "%d", InputPad::GetPadThumbData(XINPUT_PAD::NUM01, XINPUT_PAD::STICK_LEFT_X));

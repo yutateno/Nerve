@@ -153,3 +153,13 @@ float Character::GetY()
 {
 	return m_y;
 }
+
+float Character::GetXSize()
+{
+	return m_xSize;
+}
+
+float Character::GetYSize()
+{
+	return m_ySize;
+}
