@@ -38,6 +38,9 @@ Character::Character()
 
 	m_frameWait = 0;
 
+	m_xSize = 64.0f;
+	m_ySize = 64.0f;
+
 	ZeroMemory(m_direction, sizeof(m_direction));
 }
 
