@@ -265,7 +265,7 @@ HRESULT Main::InitD3D()
 						 , L"media\\clph_2d\\clph\\7_1.png" , L"media\\clph_2d\\clph\\7_2.png", L"media\\clph_2d\\clph\\7_3.png" 
 						 , L"media\\clph_2d\\clph\\8_1.png" , L"media\\clph_2d\\clph\\8_2.png", L"media\\clph_2d\\clph\\8_3.png" 
 						 , L"media\\clph_2d\\clph\\9_1.png" , L"media\\clph_2d\\clph\\9_2.png", L"media\\clph_2d\\clph\\9_3.png" };
-	if (FAILED(m_pDraw->Init(m_pDeviceContext, WINDOW_WIDTH, WINDOW_HEIGHT, fileName, fileNum)))
+	if (FAILED(m_pDraw->Init(m_pDeviceContext, WINDOW_WIDTH, WINDOW_HEIGHT, fileName, fileNum, 64, 64, false, false)))
 	{
 		return E_FAIL;
 	}

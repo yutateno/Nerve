@@ -20,7 +20,7 @@ Draw::~Draw()
 
 
 // Direct3D初期化
-HRESULT Draw::Init(ID3D11DeviceContext* pContext, DWORD width, DWORD height, LPCWSTR* p_fileName, const int num)
+HRESULT Draw::Init(ID3D11DeviceContext* pContext, DWORD width, DWORD height, LPCWSTR* p_fileName, const int num, float xSize, float ySize, bool flipHorizontal, bool flipVertical)
 {
 	//デバイスとコンテキストをコピー
 	m_pDeviceContext = pContext;
@@ -64,7 +64,7 @@ HRESULT Draw::Init(ID3D11DeviceContext* pContext, DWORD width, DWORD height, LPC
 	}
 
 	// バーテックスバッファー作成
-	if (FAILED(InitModel()))
+	if (FAILED(InitModel(xSize, ySize, flipHorizontal, flipVertical)))
 	{
 		return E_FAIL;
 	}
@@ -164,16 +164,16 @@ HRESULT Draw::MakeShader(LPSTR szFileName, LPSTR szFuncName, LPSTR szProfileName
 
 
 // ポリゴン、メッシュなどのジオメトリ関連を初期化
-HRESULT Draw::InitModel()
+HRESULT Draw::InitModel(float xSize, float ySize, bool flipHorizontal, bool flipVertical)
 {
 	// バーテックスバッファー作成
 	// 気をつけること。z値を１以上にしない。クリップ空間でz=1は最も奥を意味する。したがって描画されない。
 	SimpleVertex vertices[] =
 	{
-		D3DXVECTOR3(0,0,0),D3DXVECTOR2(0,0),//頂点1,
-		D3DXVECTOR3(0,64,0),D3DXVECTOR2(0,1),//頂点2
-		D3DXVECTOR3(64,0,0),D3DXVECTOR2(1,0), //頂点3
-		D3DXVECTOR3(64,64,0),D3DXVECTOR2(1,1), //頂点4
+		D3DXVECTOR3(0		,0		,0),D3DXVECTOR2(0							,0							),//頂点1,
+		D3DXVECTOR3(0		,ySize	,0),D3DXVECTOR2(0							,1 + (flipHorizontal * -2)	),//頂点2
+		D3DXVECTOR3(xSize	,0		,0),D3DXVECTOR2(1 + (flipVertical * -2)		,0							), //頂点3
+		D3DXVECTOR3(xSize	,ySize	,0),D3DXVECTOR2(1 + (flipVertical * -2)		,1 + (flipHorizontal * -2)	), //頂点4
 	};
 
 	D3D11_BUFFER_DESC bd;
